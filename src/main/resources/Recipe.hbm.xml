@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.haulmont.application.backend.models.Recipe">
+
+        <id name="id" type="java.lang.Integer">
+            <generator class="identity" />
+        </id>
+
+        <property name="priority">
+            <type name="org.hibernate.type.EnumType">
+                <param name="enumClass">com.haulmont.application.backend.models.Priority</param>
+                <param name="useNamed">true</param>
+            </type>
+        </property>
+
+    </class>
+</hibernate-mapping>
