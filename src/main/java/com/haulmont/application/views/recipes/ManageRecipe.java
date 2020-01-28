@@ -1,40 +1,34 @@
-package com.haulmont.application.views.patients;
+package com.haulmont.application.views.recipes;
 
-import com.haulmont.application.backend.dao.PatientDAOImpl;
-import com.haulmont.application.backend.models.Patient;
+import com.haulmont.application.backend.dao.RecipeDAOImpl;
+import com.haulmont.application.backend.models.Recipe;
 import com.haulmont.application.backend.services.Services;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.Route;
 
-
-
-@Route("managePatient")
-public class ManagePatient extends Dialog {
+@Route("manageRecipe")
+public class ManageRecipe extends Dialog {
     private TextField name = new TextField("Имя");
     private TextField surname = new TextField("Фамилия");
     private TextField patronymic = new TextField("Отчество");
     private TextField phone = new TextField("Телефон");
-    public FormLayout formLayout = new FormLayout();
     private Button save = new Button("Ок");
     private Button cancel = new Button("Отменить");
 
-    private Binder<Patient> binder = new Binder<>(Patient.class);
-    PatientView patientView;
-    private Services<Patient> patientServices = new Services<>(new PatientDAOImpl());
+    private Binder<Recipe> binder = new Binder<>(Recipe.class);
+    RecipeView recipeView;
+    private Services<Recipe> recipeServices = new Services<>(new RecipeDAOImpl());
 
-
-    public ManagePatient(PatientView patientView) {
-        this.patientView = patientView;
+    public ManageRecipe(RecipeView recipeView) {
+        this.recipeView = recipeView;
 
         HorizontalLayout buttons = new HorizontalLayout(save, cancel);
         save.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-        cancel.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
         add(name, surname, patronymic, phone, buttons);
 
         binder.bindInstanceFields(this);
@@ -43,10 +37,10 @@ public class ManagePatient extends Dialog {
         cancel.addClickListener(event -> cancel());
     }
 
-    public void setPatient(Patient patient) {
-        binder.setBean(patient);
+    public void setRecipe(Recipe recipe) {
+        binder.setBean(recipe);
 
-        if (patient == null) {
+        if (recipe == null) {
             setVisible(false);
         } else {
             setVisible(true);
@@ -58,20 +52,18 @@ public class ManagePatient extends Dialog {
         this.close();
     }
 
-    void save() {
-        Patient patient = binder.getBean();
-        patientServices.save(patient);
-        patientView.updateList();
-        setPatient(null);
+    private void save() {
+        Recipe recipe = binder.getBean();
+        recipeServices.save(recipe);
+        recipeView.updateList();
+        setRecipe(null);
     }
 
-    public void updatePatient() {
-        Patient patient = binder.getBean();
-        patientServices.update(patient);
-        patientView.updateList();
-        setPatient(null);
+    public void updateRecipe() {
+        Recipe recipe = binder.getBean();
+        recipeServices.update(recipe);
+        recipeView.updateList();
+        setRecipe(null);
     }
-
 
 }
-
