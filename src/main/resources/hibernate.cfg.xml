@@ -10,7 +10,7 @@
         <property name="hibernate.connection.driver_class">org.hsqldb.jdbc.JDBCDriver</property>
         <property name="hibernate.connection.username">sa</property>
         <property name="hibernate.connection.password"></property>
-        <property name="hibernate.connection.url">jdbc:hsqldb:mem:db</property>
+        <property name="hibernate.connection.url">jdbc:hsqldb:file:mydb1</property>
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
         <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="com.haulmont.application.backend.models.Doctor"/>

@@ -1,24 +1,29 @@
 package com.haulmont.application.backend.models;
 
-import lombok.Getter;
-import lombok.Setter;
-
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "patient")
-@Getter
-@Setter
 public class Patient {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+    @NotNull
+    @Size(min = 1)
     private String name;
+    @NotNull
+    @Size(min = 1)
     private String surname;
+    @NotNull
+    @Size(min = 1)
     private String patronymic;
+    @NotNull
     @Pattern(regexp = "[1-9]\\d{9}")
     private String phone;
 
@@ -34,7 +39,10 @@ public class Patient {
         recipes.remove(recipe);
     }
 
-    public Patient(String name, String surname, String patronymic, @Pattern(regexp = "[1-9]\\d{9}") String phone) {
+    public Patient() {
+    }
+
+    public Patient(String name, String surname, String patronymic, String phone) {
         this.name = name;
         this.surname = surname;
         this.patronymic = patronymic;
@@ -42,18 +50,55 @@ public class Patient {
         recipes = new ArrayList<>();
     }
 
-    public Patient() {
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getPatronymic() {
+        return patronymic;
+    }
+
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
     }
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", patronymic='" + patronymic + '\'' +
-                ", phone='" + phone + '\'' +
-                ", recipes=" + recipes +
-                '}';
+        return id +
+                " - " + name +
+                " " + surname +
+                " " + patronymic;
     }
 }
