@@ -9,6 +9,7 @@ public abstract class DAO<T> {
 
         abstract public T findById(Long id);
         abstract public List<T> findAll();
+        abstract public List<T> findAllFilter(String stringFilter);
 
         public void save(T object) {
             Session session = null;

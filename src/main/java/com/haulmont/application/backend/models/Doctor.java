@@ -1,8 +1,7 @@
 package com.haulmont.application.backend.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,20 +12,14 @@ public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Size(min = 1)
+    @Pattern(regexp = "\\D{1,}")
     private String name;
-    @NotNull
-    @Size(min = 1)
+    @Pattern(regexp = "\\D{1,}")
     private String surname;
-    @NotNull
-    @Size(min = 1)
+    @Pattern(regexp = "\\D{1,}")
     private String patronymic;
-
-    @NotNull
     @Enumerated(EnumType.STRING)
     private Specialization specialization;
-
     @OneToMany(mappedBy = "doctor", cascade = CascadeType.REFRESH)
     private List<Recipe> recipes;
 
@@ -96,11 +89,9 @@ public class Doctor {
 
     @Override
     public String toString() {
-        return id +
-                " - " + name +
+        return name +
                 " " + surname +
-                " " + patronymic +
-                " (" + specialization + ")";
+                " " + patronymic;
     }
 }
 

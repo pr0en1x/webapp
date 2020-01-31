@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.haulmont.application.views.doctors.DoctorView;
 import com.haulmont.application.views.patients.PatientView;
+import com.haulmont.application.views.recipes.RecipeView;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.dependency.JsModule;
@@ -45,8 +47,8 @@ public class MainView extends AppLayout {
     private static Tab[] getAvailableTabs() {
         final List<Tab> tabs = new ArrayList<>();
         tabs.add(createTab("Patients", PatientView.class));
-      //  tabs.add(createTab("Doctors", DoctorsView.class));
-       // tabs.add(createTab("Recipes", RecipesView.class));
+        tabs.add(createTab("Doctors", DoctorView.class));
+        tabs.add(createTab("Recipes", RecipeView.class));
         return tabs.toArray(new Tab[tabs.size()]);
     }
 

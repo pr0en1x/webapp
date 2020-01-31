@@ -2,8 +2,10 @@ package com.haulmont.application.backend.services;
 
 
 import com.haulmont.application.backend.dao.DAO;
+import com.haulmont.application.backend.models.Recipe;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Services<T> {
 
@@ -31,5 +33,9 @@ public class Services<T> {
 
     public void update(T object) {
         dao.update(object);
+    }
+
+    public List<T> findAllFilter(String stringFilter) {
+        return dao.findAllFilter(stringFilter);
     }
 }

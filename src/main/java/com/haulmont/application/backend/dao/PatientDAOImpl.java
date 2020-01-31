@@ -45,4 +45,9 @@ public class PatientDAOImpl extends DAO<Patient> {
         }
         return patients;
     }
+
+    @Override
+    public List<Patient> findAllFilter(String stringFilter) {
+        return null;
+    }
 }

@@ -13,7 +13,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <failOnMissingWebXml>false</failOnMissingWebXml>
 
-        <vaadin.version>14.1.5</vaadin.version>
+        <vaadin.version>14.1.16</vaadin.version>
 
         <drivers.downloader.phase>pre-integration-test</drivers.downloader.phase>
     </properties>
@@ -46,7 +46,7 @@
                 <artifactId>vaadin-bom</artifactId>
                 <type>pom</type>
                 <scope>import</scope>
-                <version>${vaadin.version}</version>
+                <version>14.1.16</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -84,6 +84,12 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <dependency>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-core</artifactId>
+            <version>14.1.16</version>
+        </dependency>
+
 
         <!-- Added to provide logging output as Vaadin uses -->
         <!-- the unbound SLF4J no-operation (NOP) logger implementation -->
