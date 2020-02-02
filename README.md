@@ -1,2 +1,2 @@
-# webapppp
+# webapp
 Use mvn jetty:run
