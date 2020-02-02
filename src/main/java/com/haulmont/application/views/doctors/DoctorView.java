@@ -16,9 +16,12 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
+
+
 
 
 @Route("doctors")
@@ -30,12 +33,17 @@ import com.vaadin.flow.router.RouterLink;
         private TextField patronymic = new TextField("Отчество");
         private ComboBox<Specialization> specialization = new ComboBox<>("Специализация");
         private FormLayout formLayout = new FormLayout();
+        private Binder<Doctor> binder = new Binder<>();
         private RouterLink link = new RouterLink("  Список пациентов", PatientView.class);
         private RouterLink link2 = new RouterLink("  Список рецептов", RecipeView.class);
 
         public DoctorView() {
             add("Список докторов");
             specialization.setItems(Specialization.values());
+            binder.forField(name).bind(Doctor::getName, Doctor::setName);
+            binder.forField(surname).bind(Doctor::getSurname, Doctor::setSurname);
+            binder.forField(patronymic).bind(Doctor::getPatronymic, Doctor::setPatronymic);
+            binder.forField(specialization).bind(Doctor::getSpecialization, Doctor::setSpecialization);
             // Добавление доктора
             Button addDoctorBtn = new Button("Добавить");
             addDoctorBtn.addClickListener(e -> {
@@ -77,6 +85,7 @@ import com.vaadin.flow.router.RouterLink;
 
                 if (doctor != null) {
                     formLayout.add(name, surname, patronymic, specialization);
+                    binder.readBean(doctor);
                     Dialog dialog = new Dialog();
                     dialog.add(formLayout);
                     Button confirm = new Button("Ок");

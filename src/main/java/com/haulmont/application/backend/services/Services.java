@@ -2,10 +2,10 @@ package com.haulmont.application.backend.services;
 
 
 import com.haulmont.application.backend.dao.DAO;
+import com.haulmont.application.backend.models.Priority;
 import com.haulmont.application.backend.models.Recipe;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Services<T> {
 
@@ -37,5 +37,11 @@ public class Services<T> {
 
     public List<T> findAllFilter(String stringFilter) {
         return dao.findAllFilter(stringFilter);
+    }
+
+    public List<T> findAllPatients(Recipe recipe) { return dao.findAllPatients(recipe);
+    }
+
+    public List<T> findAllPriority(Priority value) { return dao.findAllPriority(value);
     }
 }

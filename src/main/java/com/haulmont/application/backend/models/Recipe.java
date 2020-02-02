@@ -24,15 +24,6 @@ public class Recipe {
     public Recipe() {
     }
 
-    public Recipe(String description, Patient patient, Doctor doctor, LocalDate dateCreation, LocalDate validity, Priority priority) {
-        this.description = description;
-        this.patient = patient;
-        this.doctor = doctor;
-        this.dateCreation = dateCreation;
-        this.validity = validity;
-        this.priority = priority;
-    }
-
     public Long getId() {
         return id;
     }
@@ -45,8 +36,12 @@ public class Recipe {
         this.description = description;
     }
 
-    public String getPatient() {
+    public String getPatientView() {
         return patient.getName() + " " + patient.getSurname() + " " + patient.getPatronymic();
+    }
+
+    public Patient getPatient() {
+        return patient;
     }
 
     public void setPatient(Patient patient) {
@@ -88,5 +83,9 @@ public class Recipe {
     @Override
     public String toString() {
         return description + '\'' + priority;
+    }
+
+    public boolean equals(Recipe obj) {
+        return this.patient.toString().equals(obj.patient.toString());
     }
 }

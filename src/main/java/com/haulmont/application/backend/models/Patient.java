@@ -24,24 +24,7 @@ public class Patient {
     @OneToMany(mappedBy = "patient", cascade = CascadeType.REFRESH)
     private List<Recipe> recipes;
 
-    public void addRecipe(Recipe recipe) {
-        recipe.setPatient(this);
-        recipes.add(recipe);
-    }
-
-    public void removeRecipe(Recipe recipe) {
-        recipes.remove(recipe);
-    }
-
     public Patient() {
-    }
-
-    public Patient(String name, String surname, String patronymic, String phone) {
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
-        this.phone = phone;
-        recipes = new ArrayList<>();
     }
 
     public Long getId() {

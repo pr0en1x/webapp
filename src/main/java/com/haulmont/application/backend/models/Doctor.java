@@ -2,7 +2,6 @@ package com.haulmont.application.backend.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.Pattern;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -24,23 +23,6 @@ public class Doctor {
     private List<Recipe> recipes;
 
     public Doctor() {
-    }
-
-    public Doctor(String name, String surname, String patronymic, Specialization specialization) {
-        this.name = name;
-        this.surname = surname;
-        this.patronymic = patronymic;
-        this.specialization = specialization;
-        recipes = new ArrayList<>();
-    }
-
-    public void addRecipe(Recipe recipe) {
-        recipe.setDoctor(this);
-        recipes.add(recipe);
-    }
-
-    public void removeRecipe(Recipe recipe) {
-        recipes.remove(recipe);
     }
 
     public Long getId() {

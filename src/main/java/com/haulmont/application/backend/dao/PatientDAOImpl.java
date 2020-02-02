@@ -1,6 +1,8 @@
 package com.haulmont.application.backend.dao;
 
 import com.haulmont.application.backend.models.Patient;
+import com.haulmont.application.backend.models.Priority;
+import com.haulmont.application.backend.models.Recipe;
 import com.haulmont.application.backend.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 
@@ -50,4 +52,10 @@ public class PatientDAOImpl extends DAO<Patient> {
     public List<Patient> findAllFilter(String stringFilter) {
         return null;
     }
+
+    @Override
+    public List<Patient> findAllPatients(Recipe recipe) { return null; }
+
+    @Override
+    public List<Patient> findAllPriority(Priority value) { return null; }
 }

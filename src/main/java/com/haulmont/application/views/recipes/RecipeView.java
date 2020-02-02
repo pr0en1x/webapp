@@ -20,7 +20,10 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
+import com.vaadin.flow.data.validator.BeanValidator;
+import com.vaadin.flow.data.validator.DateRangeValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
@@ -34,7 +37,7 @@ public class RecipeView extends VerticalLayout {
     private Services<Doctor> doctorServices = new Services<>(new DoctorDAOImpl());
     private Services<Patient> patientServices = new Services<>(new PatientDAOImpl());
     private ComboBox<Recipe> filterPatient = new ComboBox<>();
-    private TextField filterPriority = new TextField();
+    private ComboBox<Priority> filterPriority = new ComboBox<>();
     private TextField filterDescription = new TextField();
     private ComboBox<Patient> patient = new ComboBox<>("Пациент");
     private ComboBox<Doctor> doctor = new ComboBox<>("Доктор");
@@ -43,6 +46,7 @@ public class RecipeView extends VerticalLayout {
     private DatePicker validity = new DatePicker();
     private TextField description = new TextField();
     private FormLayout formLayout = new FormLayout();
+    private Binder<Recipe> binder = new Binder<>();
     private RouterLink link = new RouterLink("  Список пациентов", PatientView.class);
     private RouterLink link2 = new RouterLink("  Список докторов", DoctorView.class);
 
@@ -56,6 +60,13 @@ public class RecipeView extends VerticalLayout {
 
         dateCreation.setLabel("Дата создания");
         validity.setLabel("Срок действия");
+
+        binder.forField(description).bind(Recipe::getDescription, Recipe::setDescription);
+        binder.forField(patient).bind(Recipe::getPatient, Recipe::setPatient);
+        binder.forField(doctor).bind(Recipe::getDoctor, Recipe::setDoctor);
+        binder.forField(dateCreation).bind(Recipe::getDateCreation, Recipe::setDateCreation);
+        binder.forField(validity).bind(Recipe::getValidity, Recipe::setValidity);
+        binder.forField(priority).bind(Recipe::getPriority, Recipe::setPriority);
 
         dateCreation.addValueChangeListener(event -> {
             LocalDate selectedDate = event.getValue();
@@ -113,6 +124,7 @@ public class RecipeView extends VerticalLayout {
             dialog.open();
         });
 
+
         // Изменение рецепта
         Button updateBtn = new Button("Изменить");
         updateBtn.addClickListener(e -> {
@@ -122,6 +134,7 @@ public class RecipeView extends VerticalLayout {
             }
             if (recipe != null) {
                 formLayout.add(description, patient, doctor, dateCreation, validity, priority);
+                binder.readBean(recipe);
                 Dialog dialog = new Dialog();
                 dialog.add(formLayout);
                 Button confirm = new Button("Ок");
@@ -157,22 +170,21 @@ public class RecipeView extends VerticalLayout {
             }
         });
 
-        //Фильтры
         HorizontalLayout toolbar = new HorizontalLayout(addRecipeBtn, updateBtn);
+        //Фильтры
         filterDescription.setPlaceholder("Фильтер по описанию...");
         filterDescription.setClearButtonVisible(true);
         filterDescription.setValueChangeMode(ValueChangeMode.EAGER);
         filterDescription.addValueChangeListener(e -> updateFilterList());
 
         filterPatient.setItems(recipeServices.findAll());
-        filterPatient.setItemLabelGenerator(Recipe::getPatient);
+        filterPatient.setItemLabelGenerator(Recipe::getPatientView);
         filterPatient.setPlaceholder("Фильтер по пациенту...");
-        filterPatient.addValueChangeListener(e -> grid.setItems(recipeServices.find(filterPatient.getValue().getId())));
+        filterPatient.addValueChangeListener(e -> grid.setItems(recipeServices.findAllPatients(filterPatient.getValue())));
 
+        filterPriority.setItems(Priority.values());
         filterPriority.setPlaceholder("Фильтер по приоритету...");
-        filterPriority.setClearButtonVisible(true);
-        filterPriority.setValueChangeMode(ValueChangeMode.EAGER);
-        filterPriority.addValueChangeListener(e -> grid.setItems(recipeServices.findAllFilter(filterPriority.getValue())));
+        filterPriority.addValueChangeListener(e -> grid.setItems(recipeServices.findAllPriority(filterPriority.getValue())));
 
         HorizontalLayout tabs = new HorizontalLayout(link, link2);
         HorizontalLayout priorityBar = new HorizontalLayout(filterDescription, filterPatient, filterPriority);

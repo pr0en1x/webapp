@@ -1,5 +1,7 @@
 package com.haulmont.application.backend.dao;
 
+import com.haulmont.application.backend.models.Priority;
+import com.haulmont.application.backend.models.Recipe;
 import com.haulmont.application.backend.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
 
@@ -10,6 +12,8 @@ public abstract class DAO<T> {
         abstract public T findById(Long id);
         abstract public List<T> findAll();
         abstract public List<T> findAllFilter(String stringFilter);
+        abstract public List<T> findAllPatients(Recipe recipe);
+        abstract public List<T> findAllPriority(Priority value);
 
         public void save(T object) {
             Session session = null;

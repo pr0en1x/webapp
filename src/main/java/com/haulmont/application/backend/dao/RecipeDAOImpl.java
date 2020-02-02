@@ -1,5 +1,6 @@
 package com.haulmont.application.backend.dao;
 
+import com.haulmont.application.backend.models.Priority;
 import com.haulmont.application.backend.models.Recipe;
 import com.haulmont.application.backend.utils.HibernateSessionFactoryUtil;
 import org.hibernate.Session;
@@ -75,5 +76,57 @@ public class RecipeDAOImpl extends DAO<Recipe> {
                 }
             }
         return contacts;
+    }
+
+    @Override
+    public List<Recipe> findAllPatients(Recipe recipe) {
+        Session session = null;
+        List<Recipe> recipes = new ArrayList<>();
+        List<Recipe> finalList = new ArrayList<>();
+        try {
+            session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            CriteriaQuery<Recipe> criteriaQuery = session.getCriteriaBuilder().createQuery(Recipe.class);
+            criteriaQuery.from(Recipe.class);
+            recipes = session.createQuery(criteriaQuery).getResultList();
+            recipes.forEach(item -> {
+                if(recipe.equals(item)) {
+                    finalList.add(item);
+                }
+            });
+
+        } catch (Exception e) {
+
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return finalList;
+    }
+
+    @Override
+    public List<Recipe> findAllPriority(Priority value) {
+        Session session = null;
+        List<Recipe> recipes = new ArrayList<>();
+        List<Recipe> finalList = new ArrayList<>();
+        try {
+            session = HibernateSessionFactoryUtil.getSessionFactory().openSession();
+            CriteriaQuery<Recipe> criteriaQuery = session.getCriteriaBuilder().createQuery(Recipe.class);
+            criteriaQuery.from(Recipe.class);
+            recipes = session.createQuery(criteriaQuery).getResultList();
+            recipes.forEach(item -> {
+                if(value.equals(item.getPriority())) {
+                    finalList.add(item);
+                }
+            });
+
+        } catch (Exception e) {
+
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return finalList;
     }
 }

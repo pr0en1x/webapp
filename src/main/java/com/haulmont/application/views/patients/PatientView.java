@@ -13,6 +13,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
@@ -26,11 +27,16 @@ public class PatientView extends VerticalLayout {
     private TextField patronymic = new TextField("Отчество");
     private TextField phone = new TextField("Телефон");
     private FormLayout formLayout = new FormLayout();
+    private Binder<Patient> binder = new Binder<>();
     private RouterLink link = new RouterLink("  Список докторов", DoctorView.class);
     private RouterLink link2 = new RouterLink("  Список рецептов", RecipeView.class);
 
     public PatientView() {
         add("Список пациентов");
+        binder.forField(name).bind(Patient::getName, Patient::setName);
+        binder.forField(surname).bind(Patient::getSurname, Patient::setSurname);
+        binder.forField(patronymic).bind(Patient::getPatronymic, Patient::setPatronymic);
+        binder.forField(phone).bind(Patient::getPhone, Patient::setPhone);
        // Добавление пациента
         Button addPatientBtn = new Button("Добавить");
         addPatientBtn.addClickListener(e -> {
@@ -70,6 +76,7 @@ public class PatientView extends VerticalLayout {
                     }
                     if (patient != null) {
                         formLayout.add(name, surname, patronymic, phone);
+                        binder.readBean(patient);
                         Dialog dialog = new Dialog();
                         dialog.add(formLayout);
                         Button confirm = new Button("Ок");
