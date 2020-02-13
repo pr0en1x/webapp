@@ -1,4 +1,4 @@
 # webapp
 Read Test Task in COM-TestTask3-060617-1320-357.PDF
 
-Use mvn jetty:run
+Use mvn jetty:run for run application
